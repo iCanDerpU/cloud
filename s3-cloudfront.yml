@@ -6,36 +6,36 @@ Resources:
     Properties:
       BucketName: !Ref S3BucketName
   
-  CloudDistribution:
-    Type: AWS::CloudFront::Distribution
-    Properties:
-      DistributionConfig:
-        Enabled: true
-        Aliases:
-          - !Sub cdn.${DomainName}
-        Origins:
-          - Id: !Sub ${ProductName}-origin
-            DomainName: !GetAtt BitInstance.PublicDnsName
-            CustomOriginConfig:
-              OriginProtocolPolicy: http-only
-        DefaultCacheBehavior:
-          Compress: true
-          ViewerProtocolPolicy: redirect-to-https
-          AllowedMethods:
-            - GET
-            - HEAD
-            - OPTIONS
-            - PUT
-            - PATCH
-            - POST
-            - DELETE
-          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingDisabled
-          OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3 # Managed-AllViewer
-          TargetOriginId: !Sub ${ProductName}-origin
-        ViewerCertificate:
-          AcmCertificateArn: !Ref AcmArn #arn:aws:acm:us-east-1:767397699663:certificate/214e64c2-38da-4d6c-a5f7-d15c75bd8877
-          MinimumProtocolVersion: TLSv1.2_2021
-          SslSupportMethod: sni-only
+  # CloudDistribution:
+  #   Type: AWS::CloudFront::Distribution
+  #   Properties:
+  #     DistributionConfig:
+  #       Enabled: true
+  #       Aliases:
+  #         - !Sub cdn.${DomainName}
+  #       Origins:
+  #         - Id: !Sub ${ProductName}-origin
+  #           DomainName: !GetAtt BitInstance.PublicDnsName
+  #           CustomOriginConfig:
+  #             OriginProtocolPolicy: http-only
+  #       DefaultCacheBehavior:
+  #         Compress: true
+  #         ViewerProtocolPolicy: redirect-to-https
+  #         AllowedMethods:
+  #           - GET
+  #           - HEAD
+  #           - OPTIONS
+  #           - PUT
+  #           - PATCH
+  #           - POST
+  #           - DELETE
+  #         CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingDisabled
+  #         OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3 # Managed-AllViewer
+  #         TargetOriginId: !Sub ${ProductName}-origin
+  #       ViewerCertificate:
+  #         AcmCertificateArn: !Ref AcmArn #arn:aws:acm:us-east-1:767397699663:certificate/214e64c2-38da-4d6c-a5f7-d15c75bd8877
+  #         MinimumProtocolVersion: TLSv1.2_2021
+  #         SslSupportMethod: sni-only
   
   CloudPolicy:
     Type: AWS::S3::BucketPolicy
