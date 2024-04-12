@@ -5,17 +5,41 @@ Resources:
   FetchLambda:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: !Sub "${AWS::StackName}"
       Handler: lambda_function.lambda_handler
       Runtime: python3.12
       CodeUri: Lambdas/vkloud-fetch
       Timeout: 10
-      Events:
-        MyApi:
-          Type: Api
-          Properties:
-            Path: /fetch
-            Method: get
-
+      Role: !GetAtt
+      Architectures:
+        - x86_64
+      
+  FetchLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-fetch
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: S3FetchList
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: "VisualEditor0"
+                Effect: "Allow"
+                Action: "s3:ListBucket"
+                Resource: !GetAtt CloudBucket.Arn
+  
+      
   UploadLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -23,12 +47,34 @@ Resources:
       Runtime: python3.12
       CodeUri: Lambdas/vkloud-upload
       Timeout: 60
-      Events:
-        MyApi:
-          Type: Api
-          Properties:
-            Path: /upload
-            Method: post
+      Role: !GetAtt
+      Architectures:
+        - x86_64
+
+  UploadLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-upload
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: S3FetchList
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: "VisualEditor0"
+                Effect: "Allow"
+                Action: "s3:PutObject"
+                Resource: "arn:aws:s3:::vkaramoutas-cloud/uploads/*"
 
   CloudApi:
     Type: AWS::ApiGateway::RestApi
