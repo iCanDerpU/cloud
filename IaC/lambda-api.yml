@@ -1,0 +1,133 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  FetchLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.12
+      CodeUri: Lambdas/vkloud-fetch
+      Timeout: 10
+      Events:
+        MyApi:
+          Type: Api
+          Properties:
+            Path: /fetch
+            Method: get
+
+  UploadLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.12
+      CodeUri: Lambdas/vkloud-upload
+      Timeout: 60
+      Events:
+        MyApi:
+          Type: Api
+          Properties:
+            Path: /upload
+            Method: post
+
+  CloudApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: vkloud
+
+  CloudApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - GetMethod
+      - PostMethod
+      - OptionsMethod
+    Properties:
+      RestApiId: !Ref CloudApi
+
+  CloudApiStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId: !Ref CloudApiDeployment
+      MethodSettings:
+        - ResourcePath: /fetch/
+          HttpsMethod: GET
+        - ResourcePath: /fetch/
+          HttpsMethod: OPTIONS
+        - ResourcePath: /upload/
+          HttpsMethod: POST
+        - ResourcePath: /upload/
+          HttpsMethod: OPTIONS
+      RestApiId: !Ref CloudApi
+      StageName: vkloud-prod
+
+ OptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CloudApi
+      ResourceId: !GetAtt CloudApi.RootResourceId
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+            StatusCode: "200"
+        PassthroughBehavior: WHEN_NO_MATCH
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters: 
+              "method.response.header.Access-Control-Allow-Origin": false
+              "method.response.header.Access-Control-Allow-Methods": false
+
+  PostMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CloudApi
+      ResourceId: !GetAtt CloudApi.RootResourceId
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+            StatusCode: "200"
+            ContentHandling: CONVERT_TO_TEXT
+        PassthroughBehavior: WHEN_NO_TEMPLATES
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ContactLambda.Arn}/invocations"
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters: 
+              "method.response.header.Access-Control-Allow-Origin": false
+  
+  GetMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CloudApi
+      ResourceId: !GetAtt CloudApi.RootResourceId
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+            StatusCode: "200"
+            ContentHandling: CONVERT_TO_TEXT
+        PassthroughBehavior: WHEN_NO_TEMPLATES
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ContactLambda.Arn}/invocations"
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters: 
+              "method.response.header.Access-Control-Allow-Origin": false
+  
