@@ -1,11 +1,12 @@
 import json
 import boto3
+import os
 
 def lambda_handler(event, context):
     s3_client = boto3.client('s3')
     
     response = s3_client.list_objects_v2(
-        Bucket='vkaramoutas-cloud',
+        Bucket=os.getenv('BUCKET_NAME'),
         Prefix='uploads/'
     )
     

@@ -1,0 +1,39 @@
+name: Deploy VKloud
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_ROLE_ARN: arn:aws:iam::767397699663:role/VKloudOIDCRole-Role-JJn3ijaLTzAO
+  AWS_ARTIFACTS_CLOUDFORMATION_URI: s3://vkloud-artifacts/CloudFormation
+  TEMPLATE_PATH: CloudFormation/main.yml
+  REGION: us-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+        
+      - name: Build Stack
+        run: sam build -t ${{ env.TEMPLATE_PATH }}
+
+      - name: Deploy Stack
+        run: |
+          sam deploy \
+            --no-fail-on-empty-changeset \
+            --config-env cloud \
+            --s3-bucket ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }} \
+            --config-file samconfig.toml

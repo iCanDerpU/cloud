@@ -1,6 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: S3 bucket which will be used by the website
+
 Resources:
   FetchLambda:
     Type: AWS::Serverless::Function
@@ -10,7 +15,10 @@ Resources:
       Runtime: python3.12
       CodeUri: Lambdas/vkloud-fetch
       Timeout: 10
-      Role: !GetAtt
+      Role: !GetAtt FetchLambdaRole.Arn
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref S3BucketName
       Architectures:
         - x86_64
       
@@ -37,7 +45,7 @@ Resources:
               - Sid: "VisualEditor0"
                 Effect: "Allow"
                 Action: "s3:ListBucket"
-                Resource: !GetAtt CloudBucket.Arn
+                Resource: !Sub "arn:aws:s3:::${S3BucketName}"
   
       
   UploadLambda:
@@ -47,7 +55,10 @@ Resources:
       Runtime: python3.12
       CodeUri: Lambdas/vkloud-upload
       Timeout: 60
-      Role: !GetAtt
+      Role: !GetAtt UploadLambdaRole.Arn
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref S3BucketName
       Architectures:
         - x86_64
 
@@ -74,7 +85,7 @@ Resources:
               - Sid: "VisualEditor0"
                 Effect: "Allow"
                 Action: "s3:PutObject"
-                Resource: "arn:aws:s3:::vkaramoutas-cloud/uploads/*"
+                Resource: !Sub "arn:aws:s3:::${S3BucketName}/uploads/*"
 
   CloudApi:
     Type: AWS::ApiGateway::RestApi

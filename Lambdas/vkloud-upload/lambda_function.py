@@ -1,5 +1,6 @@
 import boto3
 import base64
+import os
 from datetime import datetime
 
 def lambda_handler(event, context):
@@ -7,7 +8,7 @@ def lambda_handler(event, context):
     image_bytes = base64.b64decode(base64_image)
     current_time = datetime.now().timestamp()
     file_name = f"uploads/{current_time}.png"
-    s3_bucket_name = 'vkaramoutas-cloud'
+    s3_bucket_name = os.getenv('BUCKET_NAME')
     s3 = boto3.client('s3')
     try:
         s3.put_object(Bucket=s3_bucket_name, Key=file_name, Body=image_bytes)

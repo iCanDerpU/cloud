@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: S3 bucket which will be used by the website
+
+Resources:
+  LambdaHandlers:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: CloudFormation/lambda-api.yaml
+      Parameters:
+        S3BucketName: !Ref S3BucketName
+
+  S3CloudFront:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: CloudFormation/s3-cloudfront.yml
+      Parameters:
+        S3BucketName: !Ref S3BucketName

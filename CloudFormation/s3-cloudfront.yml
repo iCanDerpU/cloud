@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   S3BucketName:
     Type: String
-    Description: S3 bucket name
+    Description: S3 bucket which will be used by the website
 
 Resources:
   Bucket:

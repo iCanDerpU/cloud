@@ -1,0 +1,14 @@
+version = 0.1
+
+[cloud]
+[cloud.deploy]
+[cloud.deploy.parameters]
+stack_name="vkloud"
+s3_prefix="vkloud"
+region="us-east-1"
+confirm_changeset=false
+capabilities="CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
+tags="info:owner=derp"
+parameter_overrides=[
+    "S3BucketName="vkaramoutas-cloud-project"
+]
