@@ -117,7 +117,7 @@ Resources:
       RestApiId: !Ref CloudApi
       StageName: vkloud-prod
 
- OptionsMethod:
+  OptionsMethod:
     Type: AWS::ApiGateway::Method
     Properties:
       RestApiId: !Ref CloudApi
