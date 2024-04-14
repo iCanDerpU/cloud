@@ -47,4 +47,4 @@ jobs:
             --config-env cloud \
             --s3-bucket ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }} \
             --template-file ${{ env.TEMPLATE_PATH }} \
-            --config-file ../samconfig.toml
+            --config-file samconfig.toml
