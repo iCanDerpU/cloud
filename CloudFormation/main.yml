@@ -9,13 +9,13 @@ Resources:
   LambdaHandlers:
     Type: AWS::Serverless::Application
     Properties:
-      Location: CloudFormation/lambda-api.yaml
+      Location: lambda-api.yaml
       Parameters:
         S3BucketName: !Ref S3BucketName
 
   S3CloudFront:
     Type: AWS::Serverless::Application
     Properties:
-      Location: CloudFormation/s3-cloudfront.yml
+      Location: s3-cloudfront.yml
       Parameters:
         S3BucketName: !Ref S3BucketName
