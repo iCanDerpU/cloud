@@ -9,7 +9,6 @@ env:
   AWS_ROLE_ARN: arn:aws:iam::767397699663:role/VKloudOIDCRole-Role-JJn3ijaLTzAO
   AWS_ARTIFACTS_CLOUDFORMATION_URI: s3://vkloud-artifacts/CloudFormation
   TEMPLATE_PATH: CloudFormation/main.yml
-  SAM_TEMPLATE_FILE: main.yml
   REGION: us-east-1
 
 jobs:
