@@ -43,7 +43,6 @@ jobs:
       - name: Deploy Stack
         run: |
           sam deploy \
-            --guided \
             --no-fail-on-empty-changeset \
             --config-env cloud \
             --s3-bucket ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }} \
