@@ -42,24 +42,9 @@ jobs:
 
       - name: Deploy Stack
         run: |
-          set -x  # Enable debugging
-
-          # Log the current directory and list its contents
-          pwd
-          ls -la
-
-          # Log the environment variables
-          printenv
-
-          # Run SAM deploy command with debugging enabled
           sam deploy \
-            --guided \
             --no-fail-on-empty-changeset \
             --config-env cloud \
             --s3-bucket ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }} \
             --template-file ${{ env.TEMPLATE_PATH }} \
-            --config-file samconfig.toml
-
-          # Disable debugging after the command execution
-          set +x
-
+            --config-file ../samconfig.toml
