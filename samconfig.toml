@@ -10,5 +10,5 @@ confirm_changeset=false
 capabilities="CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 tags="info:owner=derp"
 parameter_overrides=[
-    "S3BucketName="vkaramoutas-cloud-project"
+    "S3BucketName=vkaramoutas-cloud-project"
 ]
