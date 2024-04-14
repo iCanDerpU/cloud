@@ -9,7 +9,7 @@ Resources:
   LambdaHandlers:
     Type: AWS::Serverless::Application
     Properties:
-      Location: lambda-api.yaml
+      Location: lambda-api.yml
       Parameters:
         S3BucketName: !Ref S3BucketName
 
