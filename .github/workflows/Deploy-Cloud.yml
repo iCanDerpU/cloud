@@ -26,14 +26,9 @@ jobs:
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: us-east-1
-        
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.12'
 
       - name: Build Stack
-        run: sam build -t ${{ env.TEMPLATE_PATH }}
+        run: sam build -t ${{ env.TEMPLATE_PATH }} --use-container
 
       - name: Deploy Stack
         run: |
@@ -42,5 +37,4 @@ jobs:
             --config-env cloud \
             --s3-bucket ${{ env.AWS_ARTIFACTS_BUCKET }} \
             --template-file ${{ env.TEMPLATE_PATH }} \
-            --config-file samconfig.toml \
-            --stack-name vkloud
+            --config-file ./samconfig.toml
