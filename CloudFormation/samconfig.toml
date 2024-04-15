@@ -10,5 +10,7 @@ confirm_changeset=false
 capabilities="CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 tags="info:owner=derp"
 parameter_overrides=[
-    "S3BucketName=vkaramoutas-cloud-project"
+    "S3BucketName=vkaramoutas-cloud-project",
+    "DomainName=vkaramoutas.xyz",
+    "AcmArn=arn:aws:acm:us-east-1:767397699663:certificate/6be6f058-f9bf-4582-991e-78ad96262694"
 ]

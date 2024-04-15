@@ -5,6 +5,14 @@ Parameters:
     Type: String
     Description: S3 bucket which will be used by the website
 
+  DomainName:
+    Type: String
+    Description: Domain to host the website in
+
+  AcmArn:
+    Type: String
+    Description: Certificate ARN for the website
+
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
@@ -33,6 +41,8 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Aliases:
+          - !Sub cloud.${DomainName}
         DefaultRootObject: index.html
         Enabled: true
         HttpVersion: "http2and3"
@@ -50,6 +60,8 @@ Resources:
             - HEAD
           CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingDisabled
           TargetOriginId: !Sub ${AWS::StackName}-origin
+          ViewerCertificate:
+            AcmCertificateArn: !Ref AcmArn
 
   OriginAccessControl:
     Type: "AWS::CloudFront::OriginAccessControl"

@@ -6,6 +6,14 @@ Parameters:
     Type: String
     Description: S3 bucket which will be used by the website
 
+  DomainName:
+    Type: String
+    Description: Domain to host the website in
+
+  AcmArn:
+    Type: String
+    Description: Certificate ARN for the website
+
 Resources:
   LambdaHandlers:
     Type: AWS::Serverless::Application
@@ -20,3 +28,5 @@ Resources:
       Location: s3-cloudfront.yml
       Parameters:
         S3BucketName: !Ref S3BucketName
+        DomainName: !Ref DomainName
+        AcmArn: !Ref AcmArn
