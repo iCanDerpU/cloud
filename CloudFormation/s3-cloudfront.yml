@@ -62,6 +62,8 @@ Resources:
           TargetOriginId: !Sub ${AWS::StackName}-origin
         ViewerCertificate:
           AcmCertificateArn: !Ref AcmArn
+          MinimumProtocolVersion: TLSv1.2_2021
+          SslSupportMethod: sni-only
 
   OriginAccessControl:
     Type: "AWS::CloudFront::OriginAccessControl"
