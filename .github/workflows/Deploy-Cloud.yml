@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_ROLE_ARN: arn:aws:iam::767397699663:role/VKloudOIDCRole-Role-JJn3ijaLTzAO
-  AWS_ARTIFACTS_CLOUDFORMATION_URI: s3://vkloud-artifacts/CloudFormation
+  AWS_ARTIFACTS_BUCKET: vkloud-artifacts
   TEMPLATE_PATH: CloudFormation/main.yml
   REGION: us-east-1
 
@@ -32,11 +32,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Upload templates
-        run: |
-          aws s3 sync ./CloudFormation ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }}
-
-        
       - name: Build Stack
         run: sam build -t ${{ env.TEMPLATE_PATH }}
 
@@ -45,7 +40,7 @@ jobs:
           sam deploy \
             --no-fail-on-empty-changeset \
             --config-env cloud \
-            --s3-bucket ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }} \
+            --s3-bucket ${{ env.AWS_ARTIFACTS_BUCKET }} \
             --template-file ${{ env.TEMPLATE_PATH }} \
             --config-file samconfig.toml \
             --stack-name vkloud
