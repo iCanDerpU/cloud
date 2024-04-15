@@ -107,13 +107,13 @@ Resources:
       DeploymentId: !Ref CloudApiDeployment
       MethodSettings:
         - ResourcePath: /fetch/
-          HttpsMethod: GET
+          HttpMethod: GET
         - ResourcePath: /fetch/
-          HttpsMethod: OPTIONS
+          HttpMethod: OPTIONS
         - ResourcePath: /upload/
-          HttpsMethod: POST
+          HttpMethod: POST
         - ResourcePath: /upload/
-          HttpsMethod: OPTIONS
+          HttpMethod: OPTIONS
       RestApiId: !Ref CloudApi
       StageName: vkloud-prod
 

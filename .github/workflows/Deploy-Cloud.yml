@@ -32,7 +32,6 @@ jobs:
 
       - name: Deploy Stack
         run: |
-          ls -la
           sam deploy \
             --no-fail-on-empty-changeset \
             --config-env cloud \
