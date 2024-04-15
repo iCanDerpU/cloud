@@ -46,5 +46,4 @@ jobs:
             --no-fail-on-empty-changeset \
             --config-env cloud \
             --s3-bucket ${{ env.AWS_ARTIFACTS_CLOUDFORMATION_URI }} \
-            --template-file ${{ env.TEMPLATE_PATH }} \
-            --config-file samconfig.toml
+            --template-file ${{ env.TEMPLATE_PATH }}
