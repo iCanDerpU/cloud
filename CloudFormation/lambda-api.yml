@@ -97,7 +97,8 @@ Resources:
     DependsOn:
       - GetMethod
       - PostMethod
-      - OptionsMethod
+      - FetchOptionsMethod
+      - UploadOptionsMethod
     Properties:
       RestApiId: !Ref CloudApi
 
