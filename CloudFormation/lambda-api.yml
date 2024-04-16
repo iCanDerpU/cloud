@@ -105,23 +105,28 @@ Resources:
     Type: AWS::ApiGateway::Stage
     Properties:
       DeploymentId: !Ref CloudApiDeployment
-      MethodSettings:
-        - ResourcePath: /fetch/
-          HttpMethod: GET
-        - ResourcePath: /fetch/
-          HttpMethod: OPTIONS
-        - ResourcePath: /upload/
-          HttpMethod: POST
-        - ResourcePath: /upload/
-          HttpMethod: OPTIONS
       RestApiId: !Ref CloudApi
       StageName: vkloud-prod
+    
+  UploadResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt CloudApi.RootResourceId
+      PathPart: upload
+      RestApiId: !Ref CloudApi
 
-  OptionsMethod:
+  FetchResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt CloudApi.RootResourceId
+      PathPart: fetch
+      RestApiId: !Ref CloudApi
+
+  UploadOptionsMethod:
     Type: AWS::ApiGateway::Method
     Properties:
       RestApiId: !Ref CloudApi
-      ResourceId: !GetAtt CloudApi.RootResourceId
+      ResourceId: !Ref UploadResource
       HttpMethod: OPTIONS
       AuthorizationType: NONE
       Integration:
@@ -140,11 +145,34 @@ Resources:
               "method.response.header.Access-Control-Allow-Origin": false
               "method.response.header.Access-Control-Allow-Methods": false
 
+  FetchOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CloudApi
+      ResourceId: !Ref FetchResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+            StatusCode: "200"
+        PassthroughBehavior: WHEN_NO_MATCH
+      MethodResponses:
+        - StatusCode: "200"
+          ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters: 
+              "method.response.header.Access-Control-Allow-Origin": false
+              "method.response.header.Access-Control-Allow-Methods": false
+
   PostMethod:
     Type: AWS::ApiGateway::Method
     Properties:
       RestApiId: !Ref CloudApi
-      ResourceId: !GetAtt CloudApi.RootResourceId
+      ResourceId: !Ref UploadResource
       HttpMethod: POST
       AuthorizationType: NONE
       Integration:
@@ -168,7 +196,7 @@ Resources:
     Type: AWS::ApiGateway::Method
     Properties:
       RestApiId: !Ref CloudApi
-      ResourceId: !GetAtt CloudApi.RootResourceId
+      ResourceId: !Ref FetchResource
       HttpMethod: GET
       AuthorizationType: NONE
       Integration:
