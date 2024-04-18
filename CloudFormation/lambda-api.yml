@@ -87,6 +87,16 @@ Resources:
                 Action: "s3:PutObject"
                 Resource: !Sub "arn:aws:s3:::${S3BucketName}/uploads/*"
 
+  FetchLambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref FetchLambda
+
+  UploadLambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+        LogGroupName: !Ref UploadLambda
+                
   CloudApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
