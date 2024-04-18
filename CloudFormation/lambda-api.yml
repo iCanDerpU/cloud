@@ -90,12 +90,12 @@ Resources:
   FetchLambdaLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Ref FetchLambda
+      LogGroupName: !Sub /aws/lambda/${FetchLambda}
 
   UploadLambdaLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-        LogGroupName: !Ref UploadLambda
+        LogGroupName: !Sub /aws/lambda/${UploadLambda}
                 
   CloudApi:
     Type: AWS::ApiGateway::RestApi
