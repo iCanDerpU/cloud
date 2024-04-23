@@ -147,7 +147,7 @@ Resources:
               "method.response.header.Access-Control-Allow-Origin": "'*'"
               "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
             StatusCode: "200"
-        PassthroughBehavior: WHEN_NO_MATCH
+        # PassthroughBehavior: WHEN_NO_MATCH
       MethodResponses:
         - StatusCode: "200"
           ResponseModels:
@@ -170,7 +170,7 @@ Resources:
               "method.response.header.Access-Control-Allow-Origin": "'*'"
               "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
             StatusCode: "200"
-        PassthroughBehavior: WHEN_NO_MATCH
+        # PassthroughBehavior: WHEN_NO_MATCH
       MethodResponses:
         - StatusCode: "200"
           ResponseModels:
@@ -194,7 +194,7 @@ Resources:
               "method.response.header.Access-Control-Allow-Origin": "'*'"
             StatusCode: "200"
             ContentHandling: CONVERT_TO_TEXT
-        PassthroughBehavior: WHEN_NO_TEMPLATES
+        # PassthroughBehavior: WHEN_NO_TEMPLATES
         Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UploadLambda.Arn}/invocations"
       MethodResponses:
         - StatusCode: "200"
@@ -218,7 +218,7 @@ Resources:
               "method.response.header.Access-Control-Allow-Origin": "'*'"
             StatusCode: "200"
             ContentHandling: CONVERT_TO_TEXT
-        PassthroughBehavior: WHEN_NO_TEMPLATES
+        # PassthroughBehavior: WHEN_NO_TEMPLATES
         Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FetchLambda.Arn}/invocations"
       MethodResponses:
         - StatusCode: "200"
