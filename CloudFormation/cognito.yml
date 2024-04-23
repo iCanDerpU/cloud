@@ -29,4 +29,5 @@ Resources:
       EmailConfiguration:
         EmailSendingAccount: DEVELOPER
         SourceArn: !Ref SesArn
+        From: !Sub contact@${AWS::StackName}.xyz
       UserPoolName: !Sub ${AWS::StackName}
