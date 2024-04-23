@@ -10,9 +10,9 @@ function App() {
 
   useEffect(() => {
     axios.get(API_URL + "/fetch").then(res => {
-      if(res.status === 200) {
+      if (res.status === 200) {
+        if (res.data.errorType) return;
         setImages(res.data);
-        location.reload();
       } else {
         console.error("Could not fetch cloud files.");
       }
@@ -28,16 +28,16 @@ function App() {
         direction="column"
         padding="5"
         color="white"
-      >  
+      >
         <Input type="file" display="none" ref={uploadInputRef} onChange={(e) => {
           const reader = new FileReader();
 
-          if(e.target.files === null) return;
+          if (e.target.files === null) return;
 
-          reader.onload = function() {
-            if(reader.result === null) return;
+          reader.onload = function () {
+            if (reader.result === null) return;
             const base64String = (reader.result as string).replace("data:", "")
-                .replace(/^.+,/, "");
+              .replace(/^.+,/, "");
 
             axios.post(API_URL + "/upload", {
               file: base64String
@@ -45,10 +45,13 @@ function App() {
               headers: {
                 "Content-Type": "application/json"
               }
-            }).then(() => location.reload())
+            }).then(() => {
+              console.log("Uploaded!")
+              location.reload()
+            })
           };
 
-          reader.onerror = function(error) {
+          reader.onerror = function (error) {
             console.log('Error: ', error);
           };
 
@@ -59,7 +62,7 @@ function App() {
         }} />
         <HStack>
           <Button colorScheme="blue" onClick={() => {
-            if(uploadInputRef.current !== null) {
+            if (uploadInputRef.current !== null) {
               uploadInputRef.current.click();
             }
           }}>
