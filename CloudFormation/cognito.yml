@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  SesArn:
+    Type: String
+    Description: The ARN of the SES identity that Cognito will use
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UsernameConfiguration:
+        CaseSensitive: true
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: false
+          RequireNumbers: false
+          RequireSymbols: false
+          RequireUppercase: false
+          TemporaryPasswordValidityDays: 7
+      MfaConfiguration: OFF
+      AccountRecoverySetting:
+        RecoveryOption:
+          - Name: admin_only
+            Priority: 1
+      AdminCreateUserConfig:
+         AllowAdminCreateUserOnly: true
+      EmailConfiguration:
+        EmailSendingAccount: DEVELOPER
+        SourceArn: !Ref SesArn
+      UserPoolName: !Sub ${AWS::StackName}

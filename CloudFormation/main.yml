@@ -13,6 +13,10 @@ Parameters:
   AcmArn:
     Type: String
     Description: Certificate ARN for the website
+  
+  SesArn:
+    Type: String
+    Description: The ARN of the SES identity that Cognito will use
 
 Resources:
   LambdaHandlers:
@@ -30,3 +34,10 @@ Resources:
         S3BucketName: !Ref S3BucketName
         DomainName: !Ref DomainName
         AcmArn: !Ref AcmArn
+
+  Cognito:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: cognito.yml
+      Parameters:
+        SesArn: !Ref SesArn
