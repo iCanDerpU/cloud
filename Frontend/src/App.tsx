@@ -1,4 +1,4 @@
-import { Button, ChakraProvider, Flex, HStack, Image, Input, Text } from "@chakra-ui/react"
+import { Button, ChakraProvider, Flex, HStack, Image, Input, Text, useToast } from "@chakra-ui/react"
 import axios from "axios";
 import { useEffect, useRef, useState } from "react"
 
@@ -7,6 +7,13 @@ const API_URL = "https://op62088iil.execute-api.us-east-1.amazonaws.com/vkloud-p
 function App() {
   const [images, setImages] = useState<string[]>([]);
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
+  const toast = useToast({
+    position: "bottom-right",
+    variant: "solid",
+    status: "info",
+    description: "Your image is being uploaded...",
+    isClosable: false
+  })
 
   useEffect(() => {
     axios.get(API_URL + "/fetch").then(res => {
@@ -38,6 +45,8 @@ function App() {
             if (reader.result === null) return;
             const base64String = (reader.result as string).replace("data:", "")
               .replace(/^.+,/, "");
+
+            toast();
 
             axios.post(API_URL + "/upload", {
               file: base64String
@@ -74,7 +83,7 @@ function App() {
         </HStack>
 
         <HStack wrap="wrap" mt={5}>
-          {images.map((imgSrc, index) => <Image key={`img-${imgSrc}-${index}`} src={imgSrc} border="2px solid blue" rounded="md" />)}
+          {images.map((imgSrc, index) => <Image maxWidth="300px" key={`img-${imgSrc}-${index}`} src={imgSrc} border="2px solid blue" rounded="md" />)}
         </HStack>
       </Flex>
     </ChakraProvider>
