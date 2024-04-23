@@ -12,6 +12,7 @@ function App() {
     axios.get(API_URL + "/fetch").then(res => {
       if(res.status === 200) {
         setImages(res.data);
+        location.reload();
       } else {
         console.error("Could not fetch cloud files.");
       }
