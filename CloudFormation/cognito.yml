@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Resources:
-  UserPool:
+  CognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
       UsernameConfiguration:
