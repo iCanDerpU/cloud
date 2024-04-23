@@ -26,8 +26,8 @@ Resources:
             Priority: 1
       AdminCreateUserConfig:
          AllowAdminCreateUserOnly: true
-      EmailConfiguration:
-        EmailSendingAccount: DEVELOPER
-        SourceArn: !Ref SesArn
-        From: !Sub contact@${AWS::StackName}.xyz
-      UserPoolName: !Sub ${AWS::StackName}
+      # EmailConfiguration:
+      #   EmailSendingAccount: DEVELOPER
+      #   SourceArn: !Ref SesArn
+      #   From: !Sub contact@${AWS::StackName}.xyz
+      # UserPoolName: !Sub ${AWS::StackName}
