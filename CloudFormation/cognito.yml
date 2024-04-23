@@ -22,3 +22,9 @@ Resources:
       AdminCreateUserConfig:
          AllowAdminCreateUserOnly: true
       UserPoolName: !Sub ${AWS::StackName}
+
+  CognitoClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: !Sub ${AWS::StackName}
+      UserPoolId: !Ref CognitoUserPool

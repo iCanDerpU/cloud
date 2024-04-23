@@ -7,7 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: "us-east-1_MLoRL7hvX",
+      userPoolId: "us-east-1_YTBdRuBxB",
       userPoolClientId: "1jk6gje7vnpkvvhg6t9344aruu"
     }
   }
