@@ -21,3 +21,4 @@ Resources:
             Priority: 1
       AdminCreateUserConfig:
          AllowAdminCreateUserOnly: true
+      UserPoolName: !Sub ${AWS::StackName}
