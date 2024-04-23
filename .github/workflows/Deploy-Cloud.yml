@@ -1,9 +1,7 @@
-name: Deploy VKloud
+name: Deploy VKloud Infrastructure
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 env:
   AWS_ROLE_ARN: arn:aws:iam::767397699663:role/VKloudOIDCRole-Role-JJn3ijaLTzAO
