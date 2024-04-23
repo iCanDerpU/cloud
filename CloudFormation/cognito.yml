@@ -1,10 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Parameters:
-  SesArn:
-    Type: String
-    Description: The ARN of the SES identity that Cognito will use
-
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool

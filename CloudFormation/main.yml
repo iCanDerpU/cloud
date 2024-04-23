@@ -14,9 +14,6 @@ Parameters:
     Type: String
     Description: Certificate ARN for the website
   
-  SesArn:
-    Type: String
-    Description: The ARN of the SES identity that Cognito will use
 
 Resources:
   LambdaHandlers:
@@ -39,5 +36,3 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location: cognito.yml
-      Parameters:
-        SesArn: !Ref SesArn
