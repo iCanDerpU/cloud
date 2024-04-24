@@ -29,6 +29,7 @@ To access VKloud and utilize its file storage capabilities, follow these steps:
 
 1. Visit [cloud.vkaramoutas.xyz](https://cloud.vkaramoutas.xyz) in your web browser.
 2. You will be prompted to log in using your AWS Cognito credentials.
+![alt text](https://github.com/iCanDerpU/cloud/blob/main/images/login.png "Cognito login")
 3. Once logged in, you can navigate the intuitive user interface to perform various actions such as uploading files, viewing stored files, and downloading files.
 
 ## DIY
@@ -48,4 +49,4 @@ Here are some additional notes and considerations for VKloud:
 
 - Security: As this is a **private** cloud storage, I configured Cognito so that only the admin can create a user inside the User Pool, I did not see it fit to add a Sign Up function.
 - Cost Optimization: For cost and practical reasons I used a minimum amount of services to make the project functional but not "fancy".
-- Domain: The reason th
+- Delete button: I intend on creating a delete button to avoid having to delete files via AWS console -> S3
