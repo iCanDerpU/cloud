@@ -21,7 +21,7 @@
 - **Cognito**: Amazon Cognito provides user authentication and authorization services, enabling secure access to the VKloud platform.
 
 ### Diagram:
-![alt text](https://github.com/iCanDerpU/cloud/blob/main/images/vkloud-infra.png "VKloud infrastracture")
+![alt text](https://github.com/iCanDerpU/cloud/blob/main/images/test.png "VKloud infrastracture")
 
 ## Using the Cloud UI
 
